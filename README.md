@@ -9,3 +9,11 @@ mvn clean package -B \
 -Dmaven.test.skip=true -Dactive.profile=prod
 
 ```
+
+# for local
+curl http://10.10.10.1:30080/customer?customerId=100
+# for kubernetes 
+
+```shell
+curl http://10.10.10.1:30080/customer?customerId=100
+```

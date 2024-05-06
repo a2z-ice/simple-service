@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-service
+spec:
+  selector:
+    matchLabels:
+      app: simple-service
+  replicas: 1
+  template: #template for the pods
+    metadata:
+      annotations:
+        kubernetes.io/change-cause: "image raspberry pi arm 64 image"
+      labels:
+        app: simple-service
+    spec:
+      containers:
+        - name: simple-service
+          image: assaduzzaman/simple-service:v1
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: simple-service-cm
+          ports:
+            - name: fss-cport
+              containerPort: 8080
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: simple-service
+spec:
+  selector:
+    app: simple-service
+
+  ports:
+    - name: fss-cport
+      port: 8080
+      targetPort: 8080
+      nodePort: 30080
+  #type: ClusterIP
+  type: NodePort

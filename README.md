@@ -1,4 +1,22 @@
 # simple-service
+```shell
+
+# To install selfsign ca in keytool do following for os like ubuntu
+cp ca.crt /usr/local/share/ca-certificates/
+# then run following command
+update-ca-certificates
+# then restart your container daemon if it is docker
+systemctl restart docker
+
+# To install selfsign ca in keytool do following for java application for example java run in docker
+
+docker run -it --rm -v $(pwd):/app -w /app eclipse-temurin:17.0.11_9-jdk-focal bash
+keytool -import -alias uniqe_alias_name ca.crt -keystore /opt/java/openjdk/lib/security/cacerts -storepass changeit
+
+# To list all trusted ca
+keytool -list -keystore /opt/java/openjdk/lib/security/cacerts -storepass changeit
+```
+
 
 ```shell
 docker run --rm \
